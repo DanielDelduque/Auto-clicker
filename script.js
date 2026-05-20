@@ -19,6 +19,10 @@ let game = {
 };
 
 let autoClickInterval;
+let multiplicadorCompra = 1;
+let contadorPobre = 0;
+let comboAtual = 0;
+let comboTimer = null;
 
 // ==========================================
 // INICIALIZAÇÃO E SALVAMENTO
@@ -125,11 +129,42 @@ function clicarBotao(event) {
     game.money += granaGanha;
     ganharXP(1); // 1 clique = 1 de XP base
 
+    // Lógica de Combo
+    comboAtual++;
+    clearTimeout(comboTimer);
+    comboTimer = setTimeout(() => {
+        comboAtual = 0;
+        document.body.className = '';
+        const audio = document.getElementById('meme-audio');
+        if(audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    }, 1000);
+    atualizarCaosVisuais();
+
     // Efeitos Visuais
     animarBotao();
     criarDinheiroVoador(event, granaGanha, isCrit);
 
     atualizarInterface();
+}
+
+function atualizarCaosVisuais() {
+    document.body.className = '';
+    if (comboAtual >= 50) {
+        document.body.classList.add('chaos-mode');
+        const audio = document.getElementById('meme-audio');
+        if (audio && audio.paused) audio.play();
+    } else if (comboAtual >= 40) {
+        document.body.classList.add('combo-40');
+    } else if (comboAtual >= 30) {
+        document.body.classList.add('combo-30');
+    } else if (comboAtual >= 20) {
+        document.body.classList.add('combo-20');
+    } else if (comboAtual >= 10) {
+        document.body.classList.add('combo-10');
+    }
 }
 
 function animarBotao() {
@@ -207,17 +242,53 @@ function verificarDesbloqueios() {
 // ==========================================
 // SISTEMA DE LOJA
 // ==========================================
-function getCustoUpgrade(upgradeId) {
+function setMultiplier(val) {
+    multiplicadorCompra = val;
+    // Atualiza botões
+    document.querySelectorAll('.btn-mult').forEach(b => b.classList.remove('active'));
+    // Encontra o botão certo baseado no texto
+    document.querySelectorAll('.btn-mult').forEach(b => {
+        if(b.innerText === val + 'x' || b.innerText === val) {
+            b.classList.add('active');
+        }
+    });
+    atualizarInterface();
+}
+
+function getCustoUpgradeInfo(upgradeId) {
     const upg = game.upgrades[upgradeId];
-    return Math.floor(upg.baseCost * Math.pow(upg.costMult, upg.level));
+    let custoTotal = 0;
+    let quantidade = 0;
+    let custoAtual = Math.floor(upg.baseCost * Math.pow(upg.costMult, upg.level));
+    let dinheiroRestante = game.money;
+
+    if (multiplicadorCompra === 'MAX') {
+        while (dinheiroRestante >= custoAtual) {
+            custoTotal += custoAtual;
+            dinheiroRestante -= custoAtual;
+            quantidade++;
+            custoAtual = Math.floor(upg.baseCost * Math.pow(upg.costMult, upg.level + quantidade));
+        }
+        if (quantidade === 0) { // Não pode comprar nenhum, mostra o custo de 1
+            custoTotal = custoAtual;
+            quantidade = 1;
+        }
+    } else {
+        for (let i = 0; i < multiplicadorCompra; i++) {
+            custoTotal += Math.floor(upg.baseCost * Math.pow(upg.costMult, upg.level + i));
+        }
+        quantidade = multiplicadorCompra;
+    }
+    return { custoTotal, quantidade };
 }
 
 function comprarUpgrade(upgradeId) {
-    const custo = getCustoUpgrade(upgradeId);
+    const info = getCustoUpgradeInfo(upgradeId);
 
-    if (game.money >= custo) {
-        game.money -= custo;
-        game.upgrades[upgradeId].level++;
+    if (game.money >= info.custoTotal) {
+        game.money -= info.custoTotal;
+        game.upgrades[upgradeId].level += info.quantidade;
+        contadorPobre = 0; // reset
 
         // Se comprou auto-clicker ou speed, reinicia o loop
         if (upgradeId === 'autoClick' || upgradeId === 'speedClick') {
@@ -225,7 +296,37 @@ function comprarUpgrade(upgradeId) {
         }
 
         atualizarInterface();
+    } else {
+        contadorPobre++;
+        mostrarMensagemPobre();
     }
+}
+
+function mostrarMensagemPobre() {
+    const msgs = [
+        "",
+        "vc é pobre....",
+        "de novo vc é pobre...",
+        "tres vezes? vc nao tem dinheiro!",
+        "chega....",
+        "PARA, VC NAO TEM DINHEIRO, VC É LERDO??",
+        "CARALHO, VC É CRIANÇA",
+        "67???💀💀💀",
+        "mano...",
+        "CHEGA CARALHO",
+        "stop💔💔😭😭"
+    ];
+    let msg = msgs[contadorPobre] || "stop💔💔😭😭";
+    if (contadorPobre >= 10) contadorPobre = 0;
+
+    const container = document.getElementById('chaos-messages-container');
+    const el = document.createElement('div');
+    el.className = 'poor-msg';
+    el.innerText = msg;
+    el.style.left = (Math.random() * 50 + 10) + '%';
+    el.style.top = (Math.random() * 50 + 10) + '%';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 2000);
 }
 
 function iniciarAutoClick() {
@@ -311,6 +412,20 @@ function checarSkinsDesbloqueadas() {
     trava('skin-lock-fogo', lvl >= 20);
     trava('skin-lock-galaxy', rb >= 1);
     trava('skin-lock-hacker', rb >= 3);
+    
+    // Skins do Caos
+    trava('skin-lock-sorriso', lvl >= 25);
+    trava('skin-lock-horror', lvl >= 35);
+    trava('skin-lock-fogo-azul', lvl >= 45);
+    trava('skin-lock-67chaos', lvl >= 67);
+    trava('skin-lock-lava', lvl >= 80);
+    trava('skin-lock-frio-aura', lvl >= 90);
+    trava('skin-lock-led-neon', lvl >= 100);
+    trava('skin-lock-rgb-dance', rb >= 2);
+    trava('skin-lock-radioactive', rb >= 4);
+    trava('skin-lock-ice-crystal', rb >= 5);
+    trava('skin-lock-dragon', rb >= 6);
+    trava('skin-lock-cursed', rb >= 7);
 }
 
 // ==========================================
@@ -347,14 +462,15 @@ function atualizarInterface() {
     const upgradesIds = ['clickPlus', 'clickMulti', 'autoClick', 'speedClick', 'offline', 'crit'];
 
     upgradesIds.forEach(id => {
-        const custo = getCustoUpgrade(id);
+        const info = getCustoUpgradeInfo(id);
+        const custo = info.custoTotal;
         const level = game.upgrades[id].level;
 
         // Elementos html: lvl-ID, cost-ID, btn-buy-ID
         // Usar kebab-case pro HTML (ex: clickPlus -> click-plus)
         const idHtml = id.replace(/([A-Z])/g, "-$1").toLowerCase();
 
-        document.getElementById(`lvl-${idHtml}`).innerText = level;
+        document.getElementById(`lvl-${idHtml}`).innerText = level + (info.quantidade > 1 ? ` (+${info.quantidade})` : '');
         document.getElementById(`cost-${idHtml}`).innerText = custo.toLocaleString();
 
         const btnBuy = document.getElementById(`btn-buy-${idHtml}`);
@@ -385,8 +501,26 @@ function fecharModal(id) {
 }
 
 function sairDeVerdade() {
-    // Redireciona para o google de brincadeira ou fecha a aba se o navegador permitir
     window.location.href = "https://www.google.com/search?q=como+parar+de+ser+um+desistente";
+}
+
+function trollExit() {
+    const btn = document.getElementById('btn-troll-exit');
+    btn.innerText = "MORRA 😡";
+    btn.classList.remove('btn-green');
+    btn.classList.add('btn-red');
+    
+    setTimeout(() => {
+        window.open("https://www.youtube.com/watch?v=Cbus9b1OlBc", "_blank");
+        fecharModal('modal-sair');
+        
+        // reseta o botão para a próxima vez
+        setTimeout(() => {
+            btn.innerText = "não = continua jogar :)💖";
+            btn.classList.remove('btn-red');
+            btn.classList.add('btn-green');
+        }, 500);
+    }, 1000);
 }
 
 // Inicializa o jogo ao carregar a página

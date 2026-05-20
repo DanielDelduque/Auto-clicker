@@ -435,3 +435,235 @@ h1, h2, h3, .text-neon, .text-epic {
     50% { opacity: 1; background: var(--neon-blue); }
     100% { opacity: 0; background: transparent; }
 }
+
+/* ========================================== */
+/* ATUALIZAÇÃO DO CAOS - SKINS LOUCAS */
+/* ========================================== */
+
+/* Skin: Sorriso */
+.skin-sorriso {
+    background: #ffeb3b;
+    border: 5px solid #fbc02d;
+    color: #000;
+    box-shadow: 0 0 30px #ffeb3b;
+}
+
+/* Skin: Horror */
+.skin-horror {
+    background: #1a0000;
+    border: 5px solid #8b0000;
+    color: #ff0000;
+    box-shadow: 0 0 40px #8b0000;
+    animation: horrorPulse 0.5s infinite;
+}
+@keyframes horrorPulse {
+    0% { transform: scale(1); filter: invert(0); }
+    50% { transform: scale(1.1); filter: invert(1) hue-rotate(180deg); }
+    100% { transform: scale(1); filter: invert(0); }
+}
+
+/* Skin: Fogo Azul */
+.skin-fogo-azul {
+    background: radial-gradient(circle, #00f3ff, #00008b);
+    border: 5px solid #00f3ff;
+    color: #fff;
+    box-shadow: 0 0 50px #00f3ff;
+    animation: firePulse 0.8s infinite alternate;
+}
+
+/* Skin: 67 Chaos */
+.skin-67chaos {
+    background: #000;
+    border: 5px dashed #fff;
+    color: #fff;
+    text-shadow: 2px 2px 0px #f00, -2px -2px 0px #0ff;
+    animation: chaosRotate 0.2s infinite;
+}
+@keyframes chaosRotate {
+    0% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.1); }
+    100% { transform: rotate(-5deg) scale(1); }
+}
+
+/* Skin: Lava */
+.skin-lava {
+    background: linear-gradient(45deg, #ff4500, #ff0000, #8b0000);
+    background-size: 400% 400%;
+    border: 5px solid #ff8c00;
+    color: #fff;
+    box-shadow: 0 0 40px #ff4500;
+    animation: lavaFlow 3s ease infinite;
+}
+@keyframes lavaFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Skin: Frio Aura */
+.skin-frio-aura {
+    background: #e0ffff;
+    border: 5px solid #00ffff;
+    color: #00ced1;
+    box-shadow: 0 0 50px #e0ffff, inset 0 0 30px #00ffff;
+}
+
+/* Skin: LED Neon */
+.skin-led-neon {
+    background: transparent;
+    border: 10px solid #ff00ff;
+    color: #ff00ff;
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 20px #ff00ff;
+    animation: blinkLed 0.5s infinite;
+}
+@keyframes blinkLed {
+    0%, 100% { opacity: 1; border-color: #ff00ff; color: #ff00ff; box-shadow: 0 0 20px #ff00ff; }
+    50% { opacity: 0.5; border-color: #00ffff; color: #00ffff; box-shadow: 0 0 20px #00ffff; }
+}
+
+/* Skin: RGB Dance */
+.skin-rgb-dance {
+    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    background-size: 400% 400%;
+    border: 5px solid #fff;
+    color: #fff;
+    animation: rgbDance 2s infinite linear;
+}
+@keyframes rgbDance {
+    0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+    100% { background-position: 100% 50%; filter: hue-rotate(360deg); }
+}
+
+/* Skin: Radioactive */
+.skin-radioactive {
+    background: #2e8b57;
+    border: 5px solid #7fff00;
+    color: #7fff00;
+    box-shadow: 0 0 40px #7fff00;
+    text-shadow: 0 0 10px #000;
+    animation: radioactiveGlow 1s infinite alternate;
+}
+@keyframes radioactiveGlow {
+    from { box-shadow: 0 0 10px #7fff00; filter: brightness(1); }
+    to { box-shadow: 0 0 50px #7fff00, inset 0 0 30px #7fff00; filter: brightness(1.5); }
+}
+
+/* Skin: Ice Crystal */
+.skin-ice-crystal {
+    background: linear-gradient(135deg, #f0f8ff 25%, #add8e6 50%, #f0f8ff 75%);
+    border: 5px solid #87ceeb;
+    color: #00008b;
+    box-shadow: 0 0 30px #add8e6;
+}
+
+/* Skin: Dragon */
+.skin-dragon {
+    background: radial-gradient(circle, #b22222, #800000);
+    border: 5px dashed #ffd700;
+    color: #ffd700;
+    box-shadow: 0 0 40px #b22222;
+}
+
+/* Skin: Cursed */
+.skin-cursed {
+    background: #000;
+    border: 5px double #4b0082;
+    color: #8a2be2;
+    box-shadow: 0 0 30px #4b0082;
+    filter: invert(1) sepia(1);
+    animation: cursedShake 0.1s infinite;
+}
+@keyframes cursedShake {
+    0% { transform: translate(2px, 1px) rotate(0deg); }
+    50% { transform: translate(-1px, -2px) rotate(-1deg); }
+    100% { transform: translate(-3px, 0px) rotate(1deg); }
+}
+
+/* ========================================== */
+/* ELEMENTOS DA UI DA LOJA (Multiplicador) */
+/* ========================================== */
+.buy-multipliers {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background: #0a0a1a;
+    border-bottom: 2px solid #2a2a5a;
+}
+.btn-mult {
+    background: #1a1a3a;
+    color: #8a8aa0;
+    border: 2px solid #3a3a6a;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.2s;
+}
+.btn-mult.active {
+    background: var(--neon-blue);
+    color: #000;
+    border-color: #fff;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* ========================================== */
+/* MENSAGENS E CAOS */
+/* ========================================== */
+#chaos-messages-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.poor-msg {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 2px 2px 0 #000, 4px 4px 0 #fff;
+    font-family: 'Impact', sans-serif;
+    white-space: nowrap;
+    animation: slapText 2s forwards;
+}
+
+@keyframes slapText {
+    0% { transform: scale(0) rotate(-20deg); opacity: 1; }
+    20% { transform: scale(1.5) rotate(10deg); }
+    80% { transform: scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: scale(2) translateY(100px); opacity: 0; }
+}
+
+/* Efeitos de Combo do Body */
+body.combo-10 { filter: drop-shadow(0 0 10px #00f3ff); }
+body.combo-20 { animation: firePulse 0.5s infinite alternate; }
+body.combo-30 { animation: rgbDance 2s infinite linear; }
+body.combo-40 { animation: comboShake 0.1s infinite; filter: hue-rotate(90deg); }
+body.chaos-mode {
+    animation: chaosTotal 0.1s infinite;
+    filter: saturate(300%) contrast(150%) hue-rotate(180deg);
+}
+
+@keyframes comboShake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes chaosTotal {
+    0% { transform: scale(1) translate(5px, 5px) rotate(1deg); background-color: #ff0000; }
+    25% { transform: scale(1.05) translate(-5px, -5px) rotate(-2deg); background-color: #00ff00; }
+    50% { transform: scale(1.1) translate(5px, -5px) rotate(3deg); background-color: #0000ff; }
+    75% { transform: scale(1.05) translate(-5px, 5px) rotate(-1deg); background-color: #ffff00; }
+    100% { transform: scale(1) translate(0px, 0px) rotate(0deg); background-color: #ff00ff; }
+}
