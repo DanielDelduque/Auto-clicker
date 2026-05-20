@@ -1,0 +1,437 @@
+/* Resets e Fontes */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none; /* Previne seleção de texto irritante em clickers */
+}
+
+:root {
+    --bg-color: #0a0a1a;
+    --panel-bg: #13132b;
+    --text-main: #e0e0ff;
+    --neon-blue: #00f3ff;
+    --neon-blue-glow: rgba(0, 243, 255, 0.5);
+    --green-buy: #00ff88;
+    --red-cant: #ff3366;
+    --epic-color: #b829ff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+h1, h2, h3, .text-neon, .text-epic {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Utilitários */
+.text-neon { color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue-glow); }
+.text-epic { color: var(--epic-color); text-shadow: 0 0 10px var(--epic-color); }
+.text-red { color: var(--red-cant); }
+.mt-15 { margin-top: 15px; }
+.mb-15 { margin-bottom: 15px; }
+.text-center { text-align: center; }
+.flex-center { display: flex; justify-content: center; align-items: center; }
+.gap-10 { gap: 10px; }
+
+/* Layout Principal */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header (Estatísticas e Level) */
+.game-header {
+    background: var(--panel-bg);
+    border: 2px solid #2a2a5a;
+    border-radius: 15px;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat-item {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.stat-item .label {
+    color: #8a8aa0;
+    margin-right: 10px;
+}
+
+/* Sistema de Level */
+.level-system {
+    flex-grow: 1;
+    margin: 0 40px;
+    max-width: 400px;
+}
+
+.level-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.xp-bar-container {
+    height: 15px;
+    background: #000;
+    border-radius: 10px;
+    border: 1px solid #333;
+    overflow: hidden;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00f3ff, #b829ff);
+    box-shadow: 0 0 10px var(--neon-blue-glow);
+    transition: width 0.3s ease-out;
+}
+
+/* Main Content (Click Area + Shop) */
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    min-height: 0; /* Permite scroll se necessário na loja */
+}
+
+/* Área de Clique */
+.click-area {
+    flex: 1;
+    background: var(--panel-bg);
+    border: 2px solid #2a2a5a;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Botões do Menu Abaixo do Clique */
+.menu-buttons {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s, filter 0.2s;
+    font-size: 1rem;
+}
+
+.btn:active { transform: scale(0.95); }
+.btn:hover { filter: brightness(1.2); }
+
+.btn-blue { background: var(--neon-blue); color: #000; box-shadow: 0 0 10px var(--neon-blue-glow); }
+.btn-red { background: var(--red-cant); color: white; box-shadow: 0 0 10px rgba(255,51,102,0.5); }
+.btn-green { background: var(--green-buy); color: #000; box-shadow: 0 0 10px rgba(0,255,136,0.5); }
+.btn-epic { 
+    background: linear-gradient(45deg, #b829ff, #ff2994); 
+    color: white; 
+    box-shadow: 0 0 15px var(--epic-color);
+    animation: pulseEpic 2s infinite;
+}
+
+@keyframes pulseEpic {
+    0% { transform: scale(1); box-shadow: 0 0 15px var(--epic-color); }
+    50% { transform: scale(1.05); box-shadow: 0 0 30px var(--epic-color); }
+    100% { transform: scale(1); box-shadow: 0 0 15px var(--epic-color); }
+}
+
+/* Botão Principal e Skins */
+.main-btn {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: none;
+    font-size: 2.5rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.05s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 5;
+}
+
+.main-btn:active {
+    transform: scale(0.9);
+}
+
+/* Skin: Padrão */
+.skin-default {
+    background: radial-gradient(circle, #2a2a5a, #0a0a1a);
+    border: 4px solid #4a4a8a;
+    color: #e0e0ff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Skin: Ouro */
+.skin-ouro {
+    background: radial-gradient(circle, #ffd700, #b8860b);
+    border: 4px solid #fff8dc;
+    color: #553e00;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+}
+
+/* Skin: Neon */
+.skin-neon {
+    background: transparent;
+    border: 6px solid var(--neon-blue);
+    color: var(--neon-blue);
+    box-shadow: 0 0 40px var(--neon-blue-glow), inset 0 0 40px var(--neon-blue-glow);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Skin: Fogo */
+.skin-fogo {
+    background: radial-gradient(circle, #ff4500, #8b0000);
+    border: 4px solid #ff8c00;
+    color: #fff;
+    box-shadow: 0 0 40px rgba(255, 69, 0, 0.8);
+    animation: firePulse 1s infinite alternate;
+}
+@keyframes firePulse {
+    0% { box-shadow: 0 0 30px rgba(255, 69, 0, 0.8), inset 0 0 20px rgba(255, 69, 0, 0.5); }
+    100% { box-shadow: 0 0 50px rgba(255, 69, 0, 1), inset 0 0 40px rgba(255, 69, 0, 0.8); }
+}
+
+/* Skin: Galaxy */
+.skin-galaxy {
+    background: radial-gradient(circle, #4b0082, #000000);
+    border: 4px solid #9370db;
+    color: #e6e6fa;
+    box-shadow: 0 0 30px #8a2be2;
+    background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                      radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+    background-size: 50px 50px, 30px 30px;
+    background-position: 0 0, 15px 15px;
+    animation: galaxyRotate 20s linear infinite;
+}
+@keyframes galaxyRotate {
+    0% { background-position: 0 0, 15px 15px; }
+    100% { background-position: 100px 100px, 115px 115px; }
+}
+
+/* Skin: Hacker */
+.skin-hacker {
+    background: #000;
+    border: 4px solid #0f0;
+    color: #0f0;
+    font-family: monospace;
+    box-shadow: 0 0 20px rgba(0,255,0,0.5);
+    text-shadow: 0 0 5px #0f0;
+}
+
+/* Partículas e Dinheiro Voando */
+#particles-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.floating-money {
+    position: absolute;
+    font-size: 1.5rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    color: #00ff88;
+    text-shadow: 0 0 5px #000, 0 0 10px rgba(0,255,136,0.5);
+    animation: floatUp 1s ease-out forwards;
+    pointer-events: none;
+}
+
+.floating-crit {
+    color: #ffaa00;
+    font-size: 2.2rem;
+    text-shadow: 0 0 5px #000, 0 0 15px #ffaa00;
+}
+
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+}
+
+/* Área da Loja */
+.shop-area {
+    width: 400px;
+    background: var(--panel-bg);
+    border: 2px solid #2a2a5a;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.shop-title {
+    text-align: center;
+    padding: 15px;
+    background: #1a1a3a;
+    border-bottom: 2px solid #2a2a5a;
+}
+
+.upgrades-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Scrollbar customizada para a loja */
+.upgrades-list::-webkit-scrollbar { width: 8px; }
+.upgrades-list::-webkit-scrollbar-track { background: var(--panel-bg); }
+.upgrades-list::-webkit-scrollbar-thumb { background: #3a3a6a; border-radius: 4px; }
+.upgrades-list::-webkit-scrollbar-thumb:hover { background: var(--neon-blue); }
+
+.upgrade-card {
+    background: #1a1a3a;
+    border: 1px solid #3a3a6a;
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.1s, border-color 0.2s;
+}
+
+.upgrade-card:hover {
+    transform: translateX(-5px);
+    border-color: var(--neon-blue);
+}
+
+.upg-info h3 { font-size: 1.1rem; margin-bottom: 2px; }
+.upg-info p { font-size: 0.8rem; color: #8a8aa0; margin-bottom: 4px; }
+.upg-level { font-size: 0.8rem; font-weight: bold; color: var(--neon-blue); }
+
+.btn-buy {
+    background: var(--red-cant);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    min-width: 90px;
+}
+
+.btn-buy.can-buy {
+    background: var(--green-buy);
+    color: #000;
+}
+
+.btn-buy:active { transform: scale(0.95); }
+
+/* Modais */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background: var(--panel-bg);
+    border: 2px solid var(--neon-blue);
+    border-radius: 15px;
+    padding: 30px;
+    min-width: 300px;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+}
+
+.skins-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.skin-btn {
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #3a3a6a;
+    background: #1a1a3a;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.skin-btn:hover:not(.locked) {
+    border-color: var(--neon-blue);
+    transform: scale(1.05);
+}
+
+.skin-btn.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #0a0a1a;
+}
+
+/* Animação de Rebirth */
+#rebirth-flash {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: white;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-out;
+}
+
+.rebirth-active {
+    animation: flashEpic 2s forwards;
+}
+
+@keyframes flashEpic {
+    0% { opacity: 0; background: white; }
+    10% { opacity: 1; background: var(--epic-color); }
+    50% { opacity: 1; background: var(--neon-blue); }
+    100% { opacity: 0; background: transparent; }
+}

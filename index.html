@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Auto: Neon Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts para dar um ar moderno e gamer -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Fundo de Partículas Epicas (Rebirth) -->
+    <div id="rebirth-flash"></div>
+
+    <div class="game-container">
+        <!-- HEADER: Informações de progresso -->
+        <header class="game-header">
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="label">Dinheiro:</span>
+                    <span id="money-display" class="value text-neon">$ 0</span>
+                </div>
+                <div class="stat-item rebirth-stat" id="rebirth-container" style="display: none;">
+                    <span class="label">Rebirths:</span>
+                    <span id="rebirth-display" class="value text-epic">0</span>
+                    <small id="rebirth-bonus-display">(+0% bônus)</small>
+                </div>
+            </div>
+
+            <div class="level-system">
+                <div class="level-info">
+                    <span class="level-text">LEVEL <span id="level-display" class="text-neon">1</span></span>
+                    <span class="xp-text"><span id="xp-display">0</span> / <span id="xp-next-display">100</span> XP</span>
+                </div>
+                <div class="xp-bar-container">
+                    <div id="xp-bar" class="xp-bar-fill"></div>
+                </div>
+            </div>
+            
+            <button id="btn-rebirth" class="btn btn-epic" style="display: none;" onclick="fazerRebirth()">
+                FAZER REBIRTH ♻️
+            </button>
+        </header>
+
+        <main class="main-content">
+            <!-- ÁREA DO JOGO (Esquerda) -->
+            <section class="click-area">
+                <div id="particles-container"></div>
+                
+                <button id="main-click-btn" class="main-btn skin-default" onclick="clicarBotao(event)">
+                    CLIQUE
+                </button>
+
+                <div class="menu-buttons">
+                    <button class="btn btn-blue" onclick="abrirModalSkins()">Skins 🎨</button>
+                    <button class="btn btn-red" onclick="abrirModalSair()">Sair ❌</button>
+                </div>
+            </section>
+
+            <!-- ÁREA DA LOJA (Direita) -->
+            <section class="shop-area">
+                <h2 class="shop-title">Loja de Upgrades 🛒</h2>
+                <div class="upgrades-list">
+                    <!-- +1 Clique -->
+                    <div class="upgrade-card" id="upg-click-plus">
+                        <div class="upg-info">
+                            <h3>+1 Clique 👆</h3>
+                            <p>Aumenta dinheiro por clique</p>
+                            <span class="upg-level">Lvl: <span id="lvl-click-plus">0</span></span>
+                        </div>
+                        <button class="btn-buy" id="btn-buy-click-plus" onclick="comprarUpgrade('clickPlus')">
+                            $ <span id="cost-click-plus">10</span>
+                        </button>
+                    </div>
+
+                    <!-- x2 Clique -->
+                    <div class="upgrade-card" id="upg-click-multi">
+                        <div class="upg-info">
+                            <h3>x2 Clique ✖️</h3>
+                            <p>Dobra poder do clique</p>
+                            <span class="upg-level">Lvl: <span id="lvl-click-multi">0</span></span>
+                        </div>
+                        <button class="btn-buy" id="btn-buy-click-multi" onclick="comprarUpgrade('clickMulti')">
+                            $ <span id="cost-click-multi">500</span>
+                        </button>
+                    </div>
+
+                    <!-- Auto Click -->
+                    <div class="upgrade-card" id="upg-auto-click">
+                        <div class="upg-info">
+                            <h3>Auto Click 🤖</h3>
+                            <p>Clica para você 1x/seg</p>
+                            <span class="upg-level">Lvl: <span id="lvl-auto-click">0</span></span>
+                        </div>
+                        <button class="btn-buy" id="btn-buy-auto-click" onclick="comprarUpgrade('autoClick')">
+                            $ <span id="cost-auto-click">50</span>
+                        </button>
+                    </div>
+
+                    <!-- Speed Click -->
+                    <div class="upgrade-card" id="upg-speed-click">
+                        <div class="upg-info">
+                            <h3>Speed Auto ⚡</h3>
+                            <p>Aumenta velocidade auto-click</p>
+                            <span class="upg-level">Lvl: <span id="lvl-speed-click">0</span></span>
+                        </div>
+                        <button class="btn-buy" id="btn-buy-speed-click" onclick="comprarUpgrade('speedClick')">
+                            $ <span id="cost-speed-click">200</span>
+                        </button>
+                    </div>
+
+                    <!-- Dinheiro Offline -->
+                    <div class="upgrade-card" id="upg-offline">
+                        <div class="upg-info">
+                            <h3>Banco Offline 🏦</h3>
+                            <p>Ganha 10% do Auto Click offline</p>
+                            <span class="upg-level">Lvl: <span id="lvl-offline">0</span></span>
+                        </div>
+                        <button class="btn-buy" id="btn-buy-offline" onclick="comprarUpgrade('offline')">
+                            $ <span id="cost-offline">1000</span>
+                        </button>
+                    </div>
+
+                    <!-- Crítico de Clique -->
+                    <div class="upgrade-card" id="upg-crit">
+                        <div class="upg-info">
+                            <h3>Clique Crítico 💥</h3>
+                            <p>10% chance de dar 5x mais grana</p>
+                            <span class="upg-level">Lvl: <span id="lvl-crit">0</span></span>
+                        </div>
+                        <button class="btn-buy" id="btn-buy-crit" onclick="comprarUpgrade('crit')">
+                            $ <span id="cost-crit">2500</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL SKINS -->
+    <div id="modal-skins" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Skins 🎨</h2>
+            <div class="skins-grid">
+                <button class="skin-btn" onclick="equiparSkin('default')">Padrão</button>
+                <button class="skin-btn skin-ouro-btn" id="skin-lock-ouro" onclick="equiparSkin('ouro')">Ouro (Lvl 5)</button>
+                <button class="skin-btn skin-neon-btn" id="skin-lock-neon" onclick="equiparSkin('neon')">Neon Azul (Lvl 10)</button>
+                <button class="skin-btn skin-fogo-btn" id="skin-lock-fogo" onclick="equiparSkin('fogo')">Fogo (Lvl 20)</button>
+                <button class="skin-btn skin-galaxy-btn" id="skin-lock-galaxy" onclick="equiparSkin('galaxy')">Galaxy (1 Rebirth)</button>
+                <button class="skin-btn skin-hacker-btn" id="skin-lock-hacker" onclick="equiparSkin('hacker')">Hacker (3 Rebirths)</button>
+            </div>
+            <button class="btn btn-blue mt-15" onclick="fecharModal('modal-skins')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- MODAL SAIR (HUMOR) -->
+    <div id="modal-sair" class="modal-overlay" style="display: none;">
+        <div class="modal-content text-center">
+            <h2 class="text-red">POR QUE?? :(</h2>
+            <p>Você tem certeza que quer parar de clicar?</p>
+            <div class="mt-15 flex-center gap-10">
+                <button class="btn btn-red" onclick="sairDeVerdade()">sair = MORRA!!! 😡😡</button>
+                <button class="btn btn-green" onclick="fecharModal('modal-sair')">não = ufa, continua jogar :)💖</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL OFFLINE EARNINGS -->
+    <div id="modal-offline" class="modal-overlay" style="display: none;">
+        <div class="modal-content text-center">
+            <h2 class="text-neon">Bem-vindo de volta! 🏦</h2>
+            <p>Enquanto você esteve fora, seus gerentes renderam:</p>
+            <h3 id="offline-money-display" class="text-epic mt-15 mb-15">$ 0</h3>
+            <button class="btn btn-green" onclick="coletarOffline()">Coletar!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
